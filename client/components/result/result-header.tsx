@@ -3,6 +3,7 @@
 import { Download, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { getPdfDownloadUrl } from "@/lib/api";
 
 interface ResultHeaderProps {
   instructions: string;
@@ -16,11 +17,20 @@ export function ResultHeader({
   pdfUrl,
 }: ResultHeaderProps) {
   function handleDownload() {
-    if (pdfUrl) {
-      window.open(pdfUrl, "_blank");
+    const url = getPdfDownloadUrl(pdfUrl);
+    if (!url) {
+      toast.error("PDF is not available yet. Please try again shortly.");
       return;
     }
-    toast.info("PDF download will be available once the backend adds pdfUrl");
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.download = "assessment.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   const preview = instructions.trim().slice(0, 120);
@@ -32,7 +42,7 @@ export function ResultHeader({
         requirements: {preview}
         {instructions.length > 120 ? "…" : ""}
       </p>
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row">
         <Button
           type="button"
           variant="outline"

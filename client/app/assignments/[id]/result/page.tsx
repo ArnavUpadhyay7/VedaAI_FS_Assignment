@@ -80,12 +80,14 @@ export default function AssignmentResultPage() {
 
   return (
     <DashboardLayout headerTitle="Create New" backHref="/assignments">
-      <ResultHeader
-        instructions={assignment.instructions}
-        pdfUrl={result.pdfUrl}
-        onRegenerate={() => router.push("/assignments/create")}
-      />
-      <AssessmentPaper result={result} assignment={assignment} />
+      <div className="mx-auto w-full max-w-4xl px-0 sm:px-2">
+        <ResultHeader
+          instructions={assignment.instructions}
+          pdfUrl={result.pdfUrl}
+          onRegenerate={() => router.push("/assignments/create")}
+        />
+        <AssessmentPaper result={result} assignment={assignment} />
+      </div>
     </DashboardLayout>
   );
 }

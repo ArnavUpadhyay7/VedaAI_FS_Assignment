@@ -40,3 +40,15 @@ export function createAssignment(formData: FormData): Promise<Assignment> {
     body: formData,
   });
 }
+
+export function deleteAssignment(id: string): Promise<{ id: string }> {
+  return request<{ id: string }>(`/api/assignments/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export function getPdfDownloadUrl(pdfUrl?: string): string | null {
+  if (!pdfUrl) return null;
+  if (pdfUrl.startsWith("http")) return pdfUrl;
+  return `${API_URL}${pdfUrl.startsWith("/") ? pdfUrl : `/${pdfUrl}`}`;
+}

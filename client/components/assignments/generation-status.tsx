@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Loader2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { StatusBadge } from "@/components/shared/status-badge";
 import type { AssignmentStatus } from "@/lib/types";
 
 const progressByStatus: Record<AssignmentStatus, number> = {
@@ -12,6 +11,13 @@ const progressByStatus: Record<AssignmentStatus, number> = {
   processing: 65,
   completed: 100,
   failed: 0,
+};
+
+const statusLabels: Record<AssignmentStatus, string> = {
+  queued: "Queued",
+  processing: "Generating",
+  completed: "Complete",
+  failed: "Failed",
 };
 
 const messages: Record<AssignmentStatus, string> = {
@@ -39,9 +45,9 @@ export function GenerationStatus({
       {isLoading && (
         <Loader2 className="mx-auto mb-4 size-10 animate-spin text-[#F97316]" />
       )}
-      <div className="mb-4 flex justify-center">
-        <StatusBadge status={status} />
-      </div>
+      <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[#6B7280]">
+        {statusLabels[status]}
+      </p>
       <h2 className="mb-2 text-xl font-semibold text-[#111827]">
         {status === "completed"
           ? "Generation complete"

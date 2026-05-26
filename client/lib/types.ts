@@ -28,6 +28,7 @@ export interface Question {
   text: string;
   difficulty: string;
   marks: number;
+  options?: string[];
 }
 
 export interface AssessmentSection {
