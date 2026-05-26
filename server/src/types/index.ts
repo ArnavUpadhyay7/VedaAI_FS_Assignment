@@ -10,6 +10,7 @@ export interface QuestionOutput {
   text: string;
   difficulty: string;
   marks: number;
+  options?: string[];
 }
 
 export interface SectionOutput {

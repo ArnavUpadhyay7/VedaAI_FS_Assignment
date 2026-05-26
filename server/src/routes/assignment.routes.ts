@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createAssignmentHandler,
+  deleteAssignmentHandler,
   getAssignmentHandler,
   listAssignmentsHandler,
 } from "../controllers/assignment.controller";
@@ -31,5 +32,6 @@ router.post("/", (req, res, next) => {
 
 router.get("/", listAssignmentsHandler);
 router.get("/:id", getAssignmentHandler);
+router.delete("/:id", deleteAssignmentHandler);
 
 export default router;

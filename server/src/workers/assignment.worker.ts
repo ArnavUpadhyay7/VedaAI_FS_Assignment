@@ -5,7 +5,8 @@ import { ASSIGNMENT_QUEUE_NAME } from "../queue/assignment.queue";
 import { Assignment } from "../models/Assignment";
 import { buildAssessmentPrompt } from "../services/prompt.service";
 import { generateAssessment } from "../services/openRouter.service";
-import { createResult } from "../services/result.service";
+import { createResult, updateResultPdfUrl } from "../services/result.service";
+import { generateAssessmentPdf } from "../services/pdf.service";
 import { updateAssignmentStatus } from "../services/assignment.service";
 import { emitAssignmentEvent } from "../socket/index";
 
@@ -31,6 +32,8 @@ export function startAssignmentWorker(): Worker {
       const prompt = buildAssessmentPrompt(assignment);
       const aiOutput = await generateAssessment(prompt);
       const result = await createResult(assignmentId, aiOutput);
+      const pdfUrl = await generateAssessmentPdf(result, assignment);
+      await updateResultPdfUrl(result._id.toString(), pdfUrl);
 
       await updateAssignmentStatus(assignmentId, "completed", result._id.toString());
       cleanupUploadedFile(assignment.uploadedFile?.path);

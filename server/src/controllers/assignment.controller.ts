@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import {
   createAssignment,
+  deleteAssignment,
   getAssignmentById,
   listAssignments,
 } from "../services/assignment.service";
@@ -65,6 +66,23 @@ export async function getAssignmentHandler(
       return;
     }
     sendSuccess(res, assignment);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteAssignmentHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const assignment = await deleteAssignment(req.params.id as string);
+    if (!assignment) {
+      sendError(res, "Assignment not found", 404);
+      return;
+    }
+    sendSuccess(res, { id: req.params.id });
   } catch (error) {
     next(error);
   }

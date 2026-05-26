@@ -1,6 +1,9 @@
+import fs from "fs";
 import { Assignment } from "../models/Assignment";
 import type { CreateAssignmentInput } from "../validators/assignment.validator";
 import type { IUploadedFile } from "../models/Assignment";
+import { deleteResultByAssignmentId } from "./result.service";
+import { deletePdfForAssignment } from "./pdf.service";
 
 interface CreateAssignmentParams extends CreateAssignmentInput {
   uploadedFile?: IUploadedFile;
@@ -34,4 +37,19 @@ export async function updateAssignmentStatus(
     { status, ...(resultId ? { resultId } : {}) },
     { returnDocument: "after" }
   );
+}
+
+export async function deleteAssignment(id: string) {
+  const assignment = await Assignment.findById(id);
+  if (!assignment) return null;
+
+  if (assignment.uploadedFile?.path && fs.existsSync(assignment.uploadedFile.path)) {
+    fs.unlinkSync(assignment.uploadedFile.path);
+  }
+
+  deletePdfForAssignment(id);
+  await deleteResultByAssignmentId(id);
+  await Assignment.findByIdAndDelete(id);
+
+  return assignment;
 }

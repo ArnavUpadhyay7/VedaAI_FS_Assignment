@@ -11,3 +11,11 @@ export async function createResult(assignmentId: string, output: ValidatedAiOutp
 export async function getResultByAssignmentId(assignmentId: string) {
   return Result.findOne({ assignmentId });
 }
+
+export async function updateResultPdfUrl(resultId: string, pdfUrl: string) {
+  return Result.findByIdAndUpdate(resultId, { pdfUrl }, { returnDocument: "after" });
+}
+
+export async function deleteResultByAssignmentId(assignmentId: string) {
+  return Result.deleteOne({ assignmentId });
+}

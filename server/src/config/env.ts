@@ -9,6 +9,7 @@ const envSchema = z.object({
   REDIS_URL: z.string().min(1),
   OPENROUTER_API_KEY: z.string().min(1),
   CLIENT_URL: z.string().url(),
+  SERVER_PUBLIC_URL: z.string().url().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -19,3 +20,7 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+export function getServerPublicUrl(): string {
+  return env.SERVER_PUBLIC_URL ?? `http://localhost:${env.PORT}`;
+}

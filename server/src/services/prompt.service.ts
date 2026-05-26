@@ -13,9 +13,18 @@ function readUploadedContent(filePath: string, mimeType: string): string {
   }
 }
 
+function isMcqType(type: string): boolean {
+  return type.toLowerCase().includes("multiple choice");
+}
+
 export function buildAssessmentPrompt(assignment: IAssignment): string {
   const questionSummary = assignment.questionTypes
-    .map((q) => `- ${q.count} ${q.type} question(s), ${q.marks} marks each`)
+    .map((q) => {
+      const mcqNote = isMcqType(q.type)
+        ? " (each question must include exactly 4 options labeled A–D)"
+        : "";
+      return `- ${q.count} ${q.type} question(s), ${q.marks} marks each${mcqNote}`;
+    })
     .join("\n");
 
   const fileSection = assignment.uploadedFile
@@ -44,7 +53,8 @@ Return JSON in exactly this shape:
         {
           "text": "string",
           "difficulty": "easy | medium | hard",
-          "marks": number
+          "marks": number,
+          "options": ["option A text", "option B text", "option C text", "option D text"]
         }
       ]
     }
@@ -55,6 +65,8 @@ Rules:
 - Create one section per question type listed above.
 - Each section must contain exactly the requested number of questions for that type.
 - Use the marks specified for each question type.
+- For Multiple Choice Questions, every question MUST include an "options" array with exactly 4 distinct answer choices.
+- For non-MCQ question types, omit the "options" field entirely.
 - Questions must be clear, unique, and aligned with the instructions.
 - Do not include any keys outside the schema.`;
 }

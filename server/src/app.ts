@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
@@ -26,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/health", (_req, res) => {
   res.json({ success: true, data: { status: "ok" } });
 });
+
+app.use("/pdfs", express.static(path.join(process.cwd(), "pdfs")));
 
 app.use("/api", routes);
 
