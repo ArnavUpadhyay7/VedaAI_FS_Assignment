@@ -1,0 +1,37 @@
+import { Assignment } from "../models/Assignment";
+import type { CreateAssignmentInput } from "../validators/assignment.validator";
+import type { IUploadedFile } from "../models/Assignment";
+
+interface CreateAssignmentParams extends CreateAssignmentInput {
+  uploadedFile?: IUploadedFile;
+}
+
+export async function createAssignment(params: CreateAssignmentParams) {
+  return Assignment.create({
+    dueDate: params.dueDate,
+    instructions: params.instructions,
+    questionTypes: params.questionTypes,
+    uploadedFile: params.uploadedFile,
+    status: "queued",
+  });
+}
+
+export async function listAssignments() {
+  return Assignment.find().sort({ createdAt: -1 });
+}
+
+export async function getAssignmentById(id: string) {
+  return Assignment.findById(id);
+}
+
+export async function updateAssignmentStatus(
+  id: string,
+  status: "queued" | "processing" | "completed" | "failed",
+  resultId?: string
+) {
+  return Assignment.findByIdAndUpdate(
+    id,
+    { status, ...(resultId ? { resultId } : {}) },
+    { returnDocument: "after" }
+  );
+}
