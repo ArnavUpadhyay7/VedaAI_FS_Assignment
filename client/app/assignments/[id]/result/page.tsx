@@ -43,7 +43,10 @@ export default function AssignmentResultPage() {
   }, [assignmentId, router]);
 
   useEffect(() => {
-    void loadData();
+    const t = window.setTimeout(() => {
+      void loadData();
+    }, 0);
+    return () => window.clearTimeout(t);
   }, [loadData]);
 
   useAssignmentSocket({
@@ -61,7 +64,7 @@ export default function AssignmentResultPage() {
   if (isLoading) {
     return (
       <DashboardLayout headerTitle="Create New" backHref="/assignments">
-        <p className="py-20 text-center text-sm text-[#6B7280]">
+        <p className="px-5 py-20 text-center text-sm text-[#6B7280]">
           Loading question paper…
         </p>
       </DashboardLayout>
@@ -71,7 +74,7 @@ export default function AssignmentResultPage() {
   if (error || !assignment || !result) {
     return (
       <DashboardLayout headerTitle="Create New" backHref="/assignments">
-        <p className="py-20 text-center text-sm text-red-600">
+        <p className="px-5 py-20 text-center text-sm text-red-600">
           {error ?? "Result not available yet"}
         </p>
       </DashboardLayout>
@@ -80,7 +83,7 @@ export default function AssignmentResultPage() {
 
   return (
     <DashboardLayout headerTitle="Create New" backHref="/assignments">
-      <div className="mx-auto w-full max-w-4xl px-0 sm:px-2">
+      <div className="mx-auto w-full max-w-4xl px-4 py-5 sm:px-5 lg:px-6 lg:py-6">
         <ResultHeader
           instructions={assignment.instructions}
           pdfUrl={result.pdfUrl}

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { Mic, Plus } from "lucide-react";
+import { CalendarIcon, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -95,12 +96,10 @@ export function CreateAssignmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 sm:p-8">
+      <div className="rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)] sm:p-8">
         <div className="mb-6">
-          <h2 className="text-lg font-semibold text-[#111827]">
-            Assignment Details
-          </h2>
-          <p className="text-sm text-[#6B7280]">
+          <h2 className="text-lg text-[#111827]">Assignment Details</h2>
+          <p className="mt-1 text-sm text-[#6B7280]">
             Basic information about your assignment.
           </p>
         </div>
@@ -115,28 +114,31 @@ export function CreateAssignmentForm() {
           <div>
             <label
               htmlFor="dueDate"
-              className="mb-2 block text-sm font-medium text-[#374151]"
+              className="mb-2 block text-sm text-[#374151]"
             >
               Due Date
             </label>
-            <Input
-              id="dueDate"
-              type="date"
-              value={dueDate ? format(dueDate, "yyyy-MM-dd") : ""}
-              min={format(new Date(), "yyyy-MM-dd")}
-              onChange={(e) => {
-                const value = e.target.value;
-                setDueDate(value ? new Date(`${value}T00:00:00`) : undefined);
-              }}
-              className="h-10 rounded-xl border-[#E5E7EB] bg-white"
-            />
+            <div className="relative">
+              <Input
+                id="dueDate"
+                type="date"
+                value={dueDate ? format(dueDate, "yyyy-MM-dd") : ""}
+                min={format(new Date(), "yyyy-MM-dd")}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setDueDate(value ? new Date(`${value}T00:00:00`) : undefined);
+                }}
+                className="h-10 rounded-xl border-[#E5E7EB] bg-white pr-10"
+              />
+              <CalendarIcon className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-[#6B7280]" />
+            </div>
             {fieldErrors.dueDate && (
               <p className="mt-1 text-xs text-red-600">{fieldErrors.dueDate}</p>
             )}
           </div>
 
           <div>
-            <div className="mb-3 hidden grid-cols-[1fr_auto_140px_140px] gap-3 text-xs font-medium text-[#6B7280] lg:grid">
+            <div className="mb-3 hidden gap-3 text-xs text-[#6B7280] lg:grid lg:grid-cols-[1fr_28px_140px_140px]">
               <span>Question Type</span>
               <span />
               <span>No. of Questions</span>
@@ -155,15 +157,16 @@ export function CreateAssignmentForm() {
               ))}
             </div>
 
-            <Button
+            <button
               type="button"
-              variant="outline"
-              className="mt-4 rounded-full"
+              className="mt-4 flex items-center gap-2 text-sm text-[#111827]"
               onClick={addQuestionType}
             >
-              <Plus className="size-4" />
+              <span className="flex size-6 items-center justify-center rounded-full bg-[#1C1C1C] text-white">
+                <Plus className="size-3.5" />
+              </span>
               Add Question Type
-            </Button>
+            </button>
 
             <div className="mt-4 flex justify-end gap-6 text-sm text-[#6B7280]">
               <span>Total Questions: {questionsTotal}</span>
@@ -177,17 +180,23 @@ export function CreateAssignmentForm() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-[#374151]">
+            <label className="mb-2 block text-sm text-[#374151]">
               Additional Information (For better output)
             </label>
             <div className="relative">
               <Textarea
                 value={instructions}
                 onChange={(e) => setInstructions(e.target.value)}
-                placeholder="e.g. Generate a question paper for 3 hour exam duration for CBSE Grade 8 Science..."
-                className="min-h-32 rounded-xl border-[#E5E7EB] pr-10"
+                placeholder="e.g Generate a question paper for 3 hour exam duration..."
+                className="min-h-32 resize-none rounded-xl border-[#E5E7EB] bg-white pb-10 pr-10 text-sm"
               />
-              <Mic className="pointer-events-none absolute right-3 bottom-3 size-4 text-[#9CA3AF]" />
+              <Image
+                src="/mic_icon.png"
+                alt=""
+                width={20}
+                height={20}
+                className="pointer-events-none absolute right-3 bottom-3 size-5 opacity-70"
+              />
             </div>
             {fieldErrors.instructions && (
               <p className="mt-1 text-xs text-red-600">
@@ -202,7 +211,7 @@ export function CreateAssignmentForm() {
         <Button
           type="button"
           variant="outline"
-          className="h-10 rounded-xl"
+          className="h-10 rounded-xl border-[#E5E7EB] bg-white px-5"
           onClick={() => router.push("/assignments")}
         >
           ← Previous
@@ -210,7 +219,7 @@ export function CreateAssignmentForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="h-10 rounded-xl bg-[#1F2937] px-6 text-white hover:bg-[#111827]"
+          className="h-10 rounded-xl bg-[#1C1C1C] px-6 text-white hover:bg-[#111111]"
         >
           {isSubmitting ? "Creating…" : "Next →"}
         </Button>

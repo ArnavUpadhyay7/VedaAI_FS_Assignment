@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Plus } from "lucide-react";
 import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { AssignmentCard } from "@/components/assignments/assignment-card";
 import { AssignmentEmpty } from "@/components/assignments/assignment-empty";
@@ -26,6 +26,7 @@ export default function AssignmentsPage() {
     () => filterAssignments(assignments, searchQuery, statusFilter, dateFilter),
     [assignments, searchQuery, statusFilter, dateFilter]
   );
+
   const hasAnyAssignments = assignments.length > 0;
   const showEmpty = !isLoading && !error && !hasAnyAssignments;
   const showNoResults =
@@ -37,13 +38,17 @@ export default function AssignmentsPage() {
 
   return (
     <DashboardLayout headerTitle="Assignment" showBack={false}>
-      <div className="lg:rounded-2xl lg:bg-white lg:p-6 lg:shadow-sm lg:ring-1 lg:ring-black/5">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-[#111827]">Assignments</h1>
-          <p className="text-sm text-[#6B7280]">
-            Manage and create assignments for your classes.
-          </p>
-        </div>
+      <div className="px-5 py-5 lg:px-6 lg:py-6">
+        {hasAnyAssignments && (
+          <div className="mb-6 flex items-start gap-2.5">
+            <div>
+              <h1 className="text-2xl text-[#111827]">Assignments</h1>
+              <p className="mt-0.5 text-sm text-[#6B7280]">
+                Manage and create assignments for your classes.
+              </p>
+            </div>
+          </div>
+        )}
 
         {hasAnyAssignments && <AssignmentsToolbar />}
 
@@ -60,11 +65,9 @@ export default function AssignmentsPage() {
         {showEmpty && <AssignmentEmpty />}
 
         {showNoResults && (
-          <div className="rounded-2xl bg-white px-6 py-12 text-center shadow-sm ring-1 ring-black/5">
-            <p className="text-sm text-[#6B7280]">
-              No assignments match your search or filters.
-            </p>
-          </div>
+          <p className="py-12 text-center text-sm text-[#6B7280]">
+            No assignments match your search or filters.
+          </p>
         )}
 
         {filteredAssignments.length > 0 && (
@@ -76,13 +79,19 @@ export default function AssignmentsPage() {
         )}
 
         {filteredAssignments.length > 0 && (
-          <div className="mt-8 flex justify-center pb-4 lg:pb-0">
+          <div className="mt-10 hidden justify-center lg:flex">
             <Button
               asChild
-              className="h-10 rounded-xl bg-[#1F2937] px-5 text-white hover:bg-[#111827]"
+              className="h-10 gap-2 rounded-full bg-[#1C1C1C] px-5 text-sm text-white hover:bg-[#111111]"
             >
               <Link href="/assignments/create">
-                <Plus className="size-4" />
+                <Image
+                  src="/create_button_icon.png"
+                  alt=""
+                  width={14}
+                  height={14}
+                  className="size-3.5 object-contain"
+                />
                 Create Assignment
               </Link>
             </Button>
@@ -90,13 +99,21 @@ export default function AssignmentsPage() {
         )}
       </div>
 
-      <Link
-        href="/assignments/create"
-        className="fixed right-4 bottom-20 z-30 flex size-12 items-center justify-center rounded-full bg-[#F97316] text-white shadow-lg lg:hidden"
-        aria-label="Create assignment"
-      >
-        <Plus className="size-6" />
-      </Link>
+      {hasAnyAssignments && (
+        <Link
+          href="/assignments/create"
+          className="fixed right-4 bottom-20 z-30 flex size-12 items-center justify-center rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.12)] ring-1 ring-black/5 lg:hidden"
+          aria-label="Create assignment"
+        >
+          <Image
+            src="/create_button_icon.png"
+            alt=""
+            width={20}
+            height={20}
+            className="size-5 object-contain"
+          />
+        </Link>
+      )}
     </DashboardLayout>
   );
 }

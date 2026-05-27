@@ -36,7 +36,10 @@ export default function AssignmentStatusPage() {
 
   useEffect(() => {
     joinAssignmentRoom(assignmentId);
-    void loadAssignment();
+    const t = window.setTimeout(() => {
+      void loadAssignment();
+    }, 0);
+    return () => window.clearTimeout(t);
   }, [assignmentId, loadAssignment]);
 
   useAssignmentSocket({
@@ -79,11 +82,13 @@ export default function AssignmentStatusPage() {
 
   return (
     <DashboardLayout headerTitle="Assignment" backHref="/assignments">
-      <GenerationStatus
-        status={status}
-        assignmentId={assignmentId}
-        onRegenerate={() => router.push("/assignments/create")}
-      />
+      <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center px-5 py-8">
+        <GenerationStatus
+          status={status}
+          assignmentId={assignmentId}
+          onRegenerate={() => router.push("/assignments/create")}
+        />
+      </div>
     </DashboardLayout>
   );
 }

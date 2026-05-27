@@ -45,17 +45,17 @@ export function AssignmentsToolbar() {
     searchQuery.trim() !== "" || statusFilter !== "all" || dateFilter !== "all";
 
   return (
-    <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className="h-10 w-fit rounded-xl border-[#E5E7EB] bg-white"
+            className="h-10 shrink-0 gap-2 rounded-xl border-[#E5E7EB] bg-white px-4 text-sm text-[#111827]"
           >
-            <Filter className="size-4" />
+            <Filter className="size-4 text-[#6B7280]" />
             Filter By
             {hasActiveFilters && (
-              <span className="ml-1 size-2 rounded-full bg-[#F97316]" />
+              <span className="size-2 rounded-full bg-[#F97316]" />
             )}
           </Button>
         </DropdownMenuTrigger>
@@ -100,13 +100,13 @@ export function AssignmentsToolbar() {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <div className="relative w-full sm:max-w-md">
+      <div className="relative min-w-0 flex-1">
         <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-[#9CA3AF]" />
         <Input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search Assignment"
-          className="h-10 rounded-xl border-[#E5E7EB] bg-white pl-9"
+          className="h-10 w-full rounded-xl border-[#E5E7EB] bg-white pl-9 text-sm"
         />
       </div>
     </div>

@@ -23,7 +23,7 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
   const removeAssignment = useAssignmentStore((state) => state.removeAssignment);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const title = assignmentTitle(assignment.instructions);
+  const title = assignmentTitle(assignment.instructions, 48);
   const href =
     assignment.status === "completed"
       ? `/assignments/${assignment._id}/result`
@@ -44,16 +44,16 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
   }
 
   return (
-    <article className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 transition-shadow hover:shadow-md">
-      <div className="mb-10 flex items-start justify-between gap-3">
-        <Link href={href} className="group flex-1">
-          <h3 className="text-base font-semibold text-[#111827] group-hover:text-[#F97316]">
+    <article className="rounded-2xl bg-white p-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
+      <div className="mb-12 flex items-start justify-between gap-2">
+        <Link href={href} className="group min-w-0 flex-1 pr-2">
+          <h3 className="text-[15px] leading-snug text-[#111827] group-hover:text-[#F97316]">
             {title}
           </h3>
         </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm" className="shrink-0">
+            <Button variant="ghost" size="icon-sm" className="shrink-0 text-[#6B7280]">
               <MoreVertical className="size-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -73,9 +73,11 @@ export function AssignmentCard({ assignment }: AssignmentCardProps) {
         </DropdownMenu>
       </div>
 
-      <div className="flex items-center justify-between gap-3 text-xs text-[#6B7280]">
-        <p>Assigned on : {formatDisplayDate(assignment.createdAt)}</p>
-        <p>Due : {formatDisplayDate(assignment.dueDate)}</p>
+      <div className="flex items-center justify-between text-xs text-[#6B7280]">
+        <span>Assigned on : {formatDisplayDate(assignment.createdAt)}</span>
+        <span className="text-[#111827]">
+          Due : {formatDisplayDate(assignment.dueDate)}
+        </span>
       </div>
     </article>
   );

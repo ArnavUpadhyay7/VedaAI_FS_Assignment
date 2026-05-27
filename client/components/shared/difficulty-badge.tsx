@@ -16,7 +16,7 @@ export function DifficultyBadge({ difficulty }: { difficulty: string }) {
   return (
     <span
       className={cn(
-        "rounded px-1.5 py-0.5 text-xs font-medium",
+        "rounded px-1.5 py-0.5 text-xs",
         style
       )}
     >

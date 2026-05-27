@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ArrowLeft, Bell, ChevronDown, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -16,55 +16,89 @@ export function Header({
   showBack = true,
   backHref = "/assignments",
 }: HeaderProps) {
-  const pathname = usePathname();
-
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-[#E5E7EB] bg-white px-4 py-3 lg:rounded-t-2xl lg:border-0 lg:px-0 lg:pt-0">
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 lg:hidden">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-[#F97316] text-xs font-bold text-white">
-            V
-          </div>
-          <span className="font-semibold">VedaAI</span>
+    <header className="flex shrink-0 items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3 shadow-[0_1px_3px_rgba(0,0,0,0.08)] lg:px-5 lg:py-3.5">
+      {/* Left */}
+      <div className="flex items-center gap-2">
+        {/* Mobile: logo image only */}
+        <div className="lg:hidden">
+          <Image
+            src="/vedaai_logo.png"
+            alt="VedaAI"
+            width={100}
+            height={30}
+            className="h-7 w-auto object-contain"
+            priority
+          />
         </div>
 
-        {showBack && (
-          <Button variant="ghost" size="icon-sm" asChild className="hidden lg:inline-flex">
-            <Link href={backHref}>
-              <ArrowLeft className="size-4" />
-            </Link>
-          </Button>
-        )}
-
+        {/* Desktop: back arrow + grid icon + title */}
         <div className="hidden items-center gap-2 lg:flex">
-          {showBack && pathname !== "/assignments" && (
-            <Button variant="ghost" size="icon-sm" asChild className="lg:hidden">
+          {showBack && (
+            <Button variant="ghost" size="icon-sm" asChild className="-ml-1">
               <Link href={backHref}>
-                <ArrowLeft className="size-4" />
+                <ArrowLeft className="size-4 text-[#6B7280]" />
               </Link>
             </Button>
           )}
-          <h1 className="text-sm font-medium text-[#6B7280]">{title}</h1>
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            className="shrink-0 text-[#9CA3AF]"
+          >
+            <rect x="0.5" y="0.5" width="5.5" height="5.5" rx="1" fill="currentColor" />
+            <rect x="9" y="0.5" width="5.5" height="5.5" rx="1" fill="currentColor" />
+            <rect x="0.5" y="9" width="5.5" height="5.5" rx="1" fill="currentColor" />
+            <rect x="9" y="9" width="5.5" height="5.5" rx="1" fill="currentColor" />
+          </svg>
+          <span className="text-sm font-medium text-[#6B7280]">{title}</span>
         </div>
       </div>
 
+      {/* Right */}
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Bell className="size-4" />
-        </Button>
+        <div className="relative">
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Bell className="size-4" />
+          </Button>
+          <span className="pointer-events-none absolute right-1.5 top-1.5 size-2 rounded-full bg-[#F97316] ring-2 ring-white" />
+        </div>
+
+        {/* Desktop: user pill */}
         <button
           type="button"
-          className="hidden items-center gap-2 rounded-full border border-[#E5E7EB] px-2 py-1 lg:flex"
+          className="hidden items-center gap-2 rounded-full border border-[#E5E7EB] py-1 pl-1 pr-2.5 lg:flex"
         >
-          <span className="flex size-8 items-center justify-center rounded-full bg-[#E5E7EB] text-xs font-semibold">
-            JD
-          </span>
-          <span className="text-sm font-medium">John Doe</span>
-          <ChevronDown className="size-4 text-[#6B7280]" />
+          <div className="size-7 overflow-hidden rounded-full">
+            <Image
+              src="/profile_logo.png"
+              alt="John Doe"
+              width={28}
+              height={28}
+              className="size-7 object-cover"
+            />
+          </div>
+          <span className="text-sm font-medium text-[#111827]">John Doe</span>
+          <ChevronDown className="size-3.5 text-[#6B7280]" />
         </button>
-        <Button variant="ghost" size="icon" className="lg:hidden">
-          <Menu className="size-5" />
-        </Button>
+
+        {/* Mobile: avatar + hamburger */}
+        <div className="flex items-center gap-1.5 lg:hidden">
+          <div className="size-8 overflow-hidden rounded-full ring-2 ring-[#E5E7EB]">
+            <Image
+              src="/profile_logo.png"
+              alt="John Doe"
+              width={32}
+              height={32}
+              className="size-8 object-cover"
+            />
+          </div>
+          <Button variant="ghost" size="icon">
+            <Menu className="size-5" />
+          </Button>
+        </div>
       </div>
     </header>
   );

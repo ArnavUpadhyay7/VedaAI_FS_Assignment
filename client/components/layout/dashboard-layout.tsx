@@ -18,23 +18,22 @@ export function DashboardLayout({
   hideHeader = false,
 }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-[#ECEFF3]">
-      <div className="mx-auto flex min-h-screen max-w-[1440px] gap-4 p-3 pb-20 lg:p-5 lg:pb-5">
-        <Sidebar />
+    <div className="flex h-screen w-full gap-3 bg-[#E8EAED] p-3">
+      <Sidebar />
 
-        <main className="flex min-h-[calc(100vh-2.5rem)] flex-1 flex-col overflow-hidden rounded-2xl bg-[#F3F4F6] lg:bg-transparent">
-          {!hideHeader && (
-            <Header
-              title={headerTitle}
-              showBack={showBack}
-              backHref={backHref}
-            />
-          )}
-          <div className="flex-1 overflow-y-auto px-4 py-4 lg:px-0 lg:py-2">
-            {children}
-          </div>
+      <div className="flex min-w-0 flex-1 flex-col gap-3 bg-[#E8EAED] p-3 lg:p-4">
+        {!hideHeader && (
+          <Header
+            title={headerTitle}
+            showBack={showBack}
+            backHref={backHref}
+          />
+        )}
+        <main className="min-h-0 flex-1 overflow-y-auto pb-24 lg:pb-0">
+          {children}
         </main>
       </div>
+
       <MobileNav />
     </div>
   );
