@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { CalendarIcon, Plus } from "lucide-react";
@@ -70,10 +69,7 @@ export function CreateAssignmentForm() {
       const formData = new FormData();
       formData.append("dueDate", parsed.data.dueDate.toISOString());
       formData.append("instructions", parsed.data.instructions);
-      formData.append(
-        "questionTypes",
-        JSON.stringify(parsed.data.questionTypes)
-      );
+      formData.append("questionTypes", JSON.stringify(parsed.data.questionTypes));
       if (file) formData.append("file", file);
 
       const assignment = await createAssignment(formData);
@@ -111,33 +107,30 @@ export function CreateAssignmentForm() {
             error={fieldErrors.file}
           />
 
+          {/* Due Date */}
           <div>
-            <label
-              htmlFor="dueDate"
-              className="mb-2 block text-sm text-[#374151]"
-            >
+            <label htmlFor="dueDate" className="mb-2 block text-sm text-[#374151]">
               Due Date
             </label>
-            <div className="relative">
-              <Input
-                id="dueDate"
-                type="date"
-                value={dueDate ? format(dueDate, "yyyy-MM-dd") : ""}
-                min={format(new Date(), "yyyy-MM-dd")}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setDueDate(value ? new Date(`${value}T00:00:00`) : undefined);
-                }}
-                className="h-10 rounded-xl border-[#E5E7EB] bg-white pr-10"
-              />
-              <CalendarIcon className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-[#6B7280]" />
-            </div>
+            <Input
+              id="dueDate"
+              type="date"
+              value={dueDate ? format(dueDate, "yyyy-MM-dd") : ""}
+              min={format(new Date(), "yyyy-MM-dd")}
+              onChange={(e) => {
+                const value = e.target.value;
+                setDueDate(value ? new Date(`${value}T00:00:00`) : undefined);
+              }}
+              className="h-10 rounded-xl border-[#E5E7EB] bg-white text-center"
+            />
             {fieldErrors.dueDate && (
               <p className="mt-1 text-xs text-red-600">{fieldErrors.dueDate}</p>
             )}
           </div>
 
+          {/* Question Types */}
           <div>
+            {/* Desktop column headers */}
             <div className="mb-3 hidden gap-3 text-xs text-[#6B7280] lg:grid lg:grid-cols-[1fr_28px_140px_140px]">
               <span>Question Type</span>
               <span />
@@ -145,7 +138,12 @@ export function CreateAssignmentForm() {
               <span>Marks</span>
             </div>
 
-            <div className="space-y-4">
+            {/* Mobile section label */}
+            <p className="mb-3 text-sm font-semibold text-[#111827] lg:hidden">
+              Question Type
+            </p>
+
+            <div className="space-y-3">
               {questionTypes.map((row) => (
                 <QuestionTypeRowComponent
                   key={row.id}
@@ -157,9 +155,10 @@ export function CreateAssignmentForm() {
               ))}
             </div>
 
+            {/* Add Question Type */}
             <button
               type="button"
-              className="mt-4 flex items-center gap-2 text-sm text-[#111827]"
+              className="mt-4 flex items-center gap-2 text-sm text-[#111827] cursor-pointer"
               onClick={addQuestionType}
             >
               <span className="flex size-6 items-center justify-center rounded-full bg-[#1C1C1C] text-white">
@@ -168,17 +167,18 @@ export function CreateAssignmentForm() {
               Add Question Type
             </button>
 
-            <div className="mt-4 flex justify-end gap-6 text-sm text-[#6B7280]">
+            {/* Totals — stacked on mobile, inline on desktop */}
+            <div className="mt-4 flex flex-col items-end gap-1 text-sm text-[#6B7280] lg:flex-row lg:justify-end lg:gap-6">
               <span>Total Questions: {questionsTotal}</span>
               <span>Total Marks: {marksTotal}</span>
             </div>
+
             {fieldErrors.questionTypes && (
-              <p className="mt-1 text-xs text-red-600">
-                {fieldErrors.questionTypes}
-              </p>
+              <p className="mt-1 text-xs text-red-600">{fieldErrors.questionTypes}</p>
             )}
           </div>
 
+          {/* Additional Information */}
           <div>
             <label className="mb-2 block text-sm text-[#374151]">
               Additional Information (For better output)
@@ -190,18 +190,9 @@ export function CreateAssignmentForm() {
                 placeholder="e.g Generate a question paper for 3 hour exam duration..."
                 className="min-h-32 resize-none rounded-xl border-[#E5E7EB] bg-white pb-10 pr-10 text-sm"
               />
-              <Image
-                src="/mic_icon.png"
-                alt=""
-                width={20}
-                height={20}
-                className="pointer-events-none absolute right-3 bottom-3 size-5 opacity-70"
-              />
             </div>
             {fieldErrors.instructions && (
-              <p className="mt-1 text-xs text-red-600">
-                {fieldErrors.instructions}
-              </p>
+              <p className="mt-1 text-xs text-red-600">{fieldErrors.instructions}</p>
             )}
           </div>
         </div>
@@ -211,7 +202,7 @@ export function CreateAssignmentForm() {
         <Button
           type="button"
           variant="outline"
-          className="h-10 rounded-xl border-[#E5E7EB] bg-white px-5"
+          className="h-10 rounded-xl border-[#E5E7EB] bg-white px-5 cursor-pointer"
           onClick={() => router.push("/assignments")}
         >
           ← Previous
@@ -219,7 +210,7 @@ export function CreateAssignmentForm() {
         <Button
           type="submit"
           disabled={isSubmitting}
-          className="h-10 rounded-xl bg-[#1C1C1C] px-6 text-white hover:bg-[#111111]"
+          className="h-10 rounded-xl bg-[#1C1C1C] px-6 text-white hover:bg-[#111111] cursor-pointer"
         >
           {isSubmitting ? "Creating…" : "Next →"}
         </Button>

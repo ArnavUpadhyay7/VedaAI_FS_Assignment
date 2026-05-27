@@ -7,7 +7,11 @@ import { CreateAssignmentForm } from "@/components/create/create-assignment-form
 export default function CreateAssignmentPage() {
   return (
     <DashboardLayout headerTitle="Assignment" backHref="/assignments">
-      <div className="px-5 py-5 lg:px-6 lg:py-6">
+      <div
+        className="px-5 py-5 lg:px-6 lg:py-6"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
+      >
+        <style>{`div::-webkit-scrollbar { display: none; }`}</style>
         <div className="mb-5 flex items-start gap-2.5">
           <div>
             <h1 className="text-2xl text-[#111827]">Create Assignment</h1>
