@@ -102,7 +102,7 @@ export default function AssignmentsPage() {
       {hasAnyAssignments && (
         <Link
           href="/assignments/create"
-          className="fixed right-4 bottom-20 z-30 flex size-12 items-center justify-center rounded-full bg-white shadow-[0_4px_12px_rgba(0,0,0,0.12)] ring-1 ring-black/5 lg:hidden"
+          className="fixed right-4 bottom-20 z-30 flex size-14 items-center justify-center rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] ring-1 ring-black/5 lg:hidden"
           aria-label="Create assignment"
         >
           <Image
@@ -111,6 +111,7 @@ export default function AssignmentsPage() {
             width={20}
             height={20}
             className="size-5 object-contain"
+            style={{ filter: "invert(48%) sepia(79%) saturate(2476%) hue-rotate(330deg) brightness(118%) contrast(119%)" }}
           />
         </Link>
       )}
