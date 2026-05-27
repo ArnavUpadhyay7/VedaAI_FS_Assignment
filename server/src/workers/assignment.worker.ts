@@ -1,6 +1,5 @@
 import fs from "fs";
 import { Worker } from "bullmq";
-import { env } from "../config/env";
 import { ASSIGNMENT_QUEUE_NAME } from "../queue/assignment.queue";
 import { Assignment } from "../models/Assignment";
 import { buildAssessmentPrompt } from "../services/prompt.service";
@@ -9,6 +8,7 @@ import { createResult, updateResultPdfUrl } from "../services/result.service";
 import { generateAssessmentPdf } from "../services/pdf.service";
 import { updateAssignmentStatus } from "../services/assignment.service";
 import { emitAssignmentEvent } from "../socket/index";
+import { getBullMqConnection } from "../config/redis";
 
 function cleanupUploadedFile(filePath?: string): void {
   if (!filePath) return;
@@ -42,7 +42,7 @@ export function startAssignmentWorker(): Worker {
         resultId: result._id.toString(),
       });
     },
-    { connection: { url: env.REDIS_URL } }
+    { connection: getBullMqConnection() }
   );
 
   worker.on("failed", async (job, err) => {

@@ -10,6 +10,7 @@ const envSchema = z.object({
   OPENROUTER_API_KEY: z.string().min(1),
   CLIENT_URL: z.string().url(),
   SERVER_PUBLIC_URL: z.string().url().optional(),
+  PDF_DIR: z.string().min(1).optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

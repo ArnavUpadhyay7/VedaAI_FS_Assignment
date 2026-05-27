@@ -1,10 +1,10 @@
 import { Queue } from "bullmq";
-import { env } from "../config/env";
+import { getBullMqConnection } from "../config/redis";
 
 export const ASSIGNMENT_QUEUE_NAME = "assignment-generation";
 
 export const assignmentQueue = new Queue(ASSIGNMENT_QUEUE_NAME, {
-  connection: { url: env.REDIS_URL },
+  connection: getBullMqConnection(),
 });
 
 export async function enqueueAssignmentJob(assignmentId: string): Promise<void> {

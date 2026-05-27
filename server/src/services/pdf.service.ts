@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
 import PDFDocument from "pdfkit";
-import { getServerPublicUrl } from "../config/env";
+import { env, getServerPublicUrl } from "../config/env";
 import type { IAssignment } from "../models/Assignment";
 import type { IResult } from "../models/Result";
 
-const PDF_DIR = path.join(process.cwd(), "pdfs");
+const PDF_DIR = env.PDF_DIR ? path.resolve(env.PDF_DIR) : path.join(process.cwd(), "pdfs");
 
 function ensurePdfDir(): void {
   if (!fs.existsSync(PDF_DIR)) {
