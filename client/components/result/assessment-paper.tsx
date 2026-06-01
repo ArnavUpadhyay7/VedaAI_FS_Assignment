@@ -60,8 +60,10 @@ export function AssessmentPaper({ result, assignment }: AssessmentPaperProps) {
     <div className="mx-auto w-full max-w-3xl rounded-2xl bg-white p-5 shadow-[0_4px_24px_rgba(0,0,0,0.08)] sm:p-8 md:p-10">
       <header className="border-b border-[#E5E7EB] pb-6 text-center">
         <h1 className="text-xl text-[#111827] sm:text-2xl">{SCHOOL_NAME}</h1>
-        <p className="mt-2 text-sm text-[#6B7280]">Subject: Assessment</p>
-        <p className="text-sm text-[#6B7280]">Class: —</p>
+        <p className="mt-2 text-sm text-[#6B7280]">
+          Subject: {assignment.subject}
+        </p>
+        <p className="text-sm text-[#6B7280]">Class: {assignment.class}</p>
       </header>
 
       <div className="mt-5 flex flex-col gap-1 text-sm text-[#374151] sm:flex-row sm:justify-between">
@@ -86,8 +88,6 @@ export function AssessmentPaper({ result, assignment }: AssessmentPaperProps) {
         </div>
         <label className="flex items-end gap-2 text-sm">
           <span className="shrink-0 text-[#374151]">Class:</span>
-          <span className="h-6 w-16 border-b border-[#9CA3AF]" />
-          <span className="text-[#374151]">Section:</span>
           <span className="h-6 flex-1 border-b border-[#9CA3AF]" />
         </label>
       </section>

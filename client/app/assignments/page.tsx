@@ -42,7 +42,7 @@ export default function AssignmentsPage() {
         {hasAnyAssignments && (
           <div className="mb-6 flex items-start gap-2.5">
             <div>
-              <h1 className="text-2xl text-[#111827]">Assignments</h1>
+              <h1 className="text-2xl font-semibold text-[#111827]">Assignments</h1>
               <p className="mt-0.5 text-sm text-[#6B7280]">
                 Manage and create assignments for your classes.
               </p>

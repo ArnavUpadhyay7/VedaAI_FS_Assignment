@@ -6,7 +6,7 @@ import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-inter",
 });
 
@@ -21,11 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${inter.className} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className="h-full antialiased">
+      <body className={`${inter.variable} ${inter.className} min-h-full flex flex-col`}>
         <SocketProvider>{children}</SocketProvider>
         <Toaster position="top-right" richColors />
       </body>

@@ -41,6 +41,17 @@ export function createAssignment(formData: FormData): Promise<Assignment> {
   });
 }
 
+export function renameAssignment(
+  id: string,
+  title: string
+): Promise<Assignment> {
+  return request<Assignment>(`/api/assignments/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
+  });
+}
+
 export function deleteAssignment(id: string): Promise<{ id: string }> {
   return request<{ id: string }>(`/api/assignments/${id}`, {
     method: "DELETE",

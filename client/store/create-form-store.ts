@@ -8,10 +8,14 @@ export interface QuestionTypeRow extends QuestionType {
 }
 
 interface CreateFormStore {
+  className: string;
+  subject: string;
   dueDate: Date | undefined;
   instructions: string;
   questionTypes: QuestionTypeRow[];
   file: File | null;
+  setClassName: (value: string) => void;
+  setSubject: (value: string) => void;
   setDueDate: (date: Date | undefined) => void;
   setInstructions: (value: string) => void;
   setFile: (file: File | null) => void;
@@ -36,11 +40,15 @@ function createRow(): QuestionTypeRow {
 const defaultRows = [createRow()];
 
 export const useCreateFormStore = create<CreateFormStore>((set) => ({
+  className: "",
+  subject: "",
   dueDate: undefined,
   instructions: "",
   questionTypes: defaultRows,
   file: null,
 
+  setClassName: (value) => set({ className: value }),
+  setSubject: (value) => set({ subject: value }),
   setDueDate: (date) => set({ dueDate: date }),
   setInstructions: (value) => set({ instructions: value }),
   setFile: (file) => set({ file }),
@@ -67,6 +75,8 @@ export const useCreateFormStore = create<CreateFormStore>((set) => ({
 
   reset: () =>
     set({
+      className: "",
+      subject: "",
       dueDate: undefined,
       instructions: "",
       questionTypes: [createRow()],

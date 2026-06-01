@@ -28,7 +28,7 @@ export function Sidebar() {
 
       <Button
         asChild
-        className="mb-6 h-10 w-full gap-2 rounded-full border border-[#F97316] bg-[#1C1C1C] text-sm text-white shadow-[0_0_0_1px_#F97316] hover:bg-[#111111]"
+          className="mb-6 h-10 w-full gap-2 rounded-full border border-[#F97316] bg-[#1C1C1C] text-sm font-medium text-white shadow-[0_0_0_1px_#F97316] hover:bg-[#111111]"
       >
         <Link href="/assignments/create">
           <Image
@@ -58,7 +58,7 @@ export function Sidebar() {
               href={item.href}
               className={cn(
                 "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-[#4B5563] transition-colors hover:bg-[#F3F4F6]",
-                isActive && "bg-[#F3F4F6] text-[#111827]"
+                isActive && "bg-[#F3F4F6] font-medium text-[#111827]"
               )}
             >
               <item.icon className="size-4 shrink-0" />

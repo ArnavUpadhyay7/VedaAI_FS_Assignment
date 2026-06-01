@@ -50,7 +50,7 @@ export function AssignmentsToolbar() {
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
-            className="h-10 shrink-0 gap-2 rounded-xl border-[#E5E7EB] bg-white px-4 text-sm text-[#111827]"
+            className="h-10 shrink-0 gap-2 rounded-xl border-[#E5E7EB] bg-white px-4 text-sm font-semibold text-[#111827]"
           >
             <Filter className="size-4 text-[#6B7280]" />
             Filter By

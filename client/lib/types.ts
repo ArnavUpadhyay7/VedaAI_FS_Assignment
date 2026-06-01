@@ -14,6 +14,9 @@ export interface UploadedFile {
 
 export interface Assignment {
   _id: string;
+  title?: string;
+  class: string;
+  subject: string;
   dueDate: string;
   questionTypes: QuestionType[];
   instructions: string;

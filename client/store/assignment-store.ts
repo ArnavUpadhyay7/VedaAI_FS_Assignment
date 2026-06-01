@@ -1,7 +1,11 @@
 "use client";
 
 import { create } from "zustand";
-import { deleteAssignment as deleteAssignmentApi, fetchAssignments } from "@/lib/api";
+import {
+  deleteAssignment as deleteAssignmentApi,
+  fetchAssignments,
+  renameAssignment as renameAssignmentApi,
+} from "@/lib/api";
 import type { Assignment, AssignmentStatus } from "@/lib/types";
 
 export type StatusFilter = "all" | AssignmentStatus;
@@ -25,6 +29,7 @@ interface AssignmentStore {
     resultId?: string
   ) => void;
   upsertAssignment: (assignment: Assignment) => void;
+  renameAssignment: (id: string, title: string) => Promise<void>;
   removeAssignment: (id: string) => Promise<void>;
 }
 
@@ -47,9 +52,13 @@ export function filterAssignments(
 
 function matchesSearch(assignment: Assignment, query: string): boolean {
   const haystack = [
+    assignment.title,
+    assignment.class,
+    assignment.subject,
     assignment.instructions,
     ...assignment.questionTypes.map((q) => q.type),
   ]
+    .filter(Boolean)
     .join(" ")
     .toLowerCase();
 
@@ -114,6 +123,15 @@ export const useAssignmentStore = create<AssignmentStore>((set) => ({
       }
       return { assignments: [assignment, ...state.assignments] };
     });
+  },
+
+  renameAssignment: async (id, title) => {
+    const assignment = await renameAssignmentApi(id, title);
+    set((state) => ({
+      assignments: state.assignments.map((item) =>
+        item._id === id ? assignment : item
+      ),
+    }));
   },
 
   removeAssignment: async (id) => {

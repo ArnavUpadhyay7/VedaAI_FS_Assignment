@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { CalendarIcon, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,10 +23,14 @@ export function CreateAssignmentForm() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const {
+    className,
+    subject,
     dueDate,
     instructions,
     questionTypes,
     file,
+    setClassName,
+    setSubject,
     setDueDate,
     setInstructions,
     setFile,
@@ -43,6 +47,8 @@ export function CreateAssignmentForm() {
     setFieldErrors({});
 
     const parsed = createAssignmentSchema.safeParse({
+      class: className,
+      subject,
       dueDate,
       instructions,
       questionTypes: questionTypes.map(({ type, count, marks }) => ({
@@ -67,6 +73,8 @@ export function CreateAssignmentForm() {
 
     try {
       const formData = new FormData();
+      formData.append("class", parsed.data.class);
+      formData.append("subject", parsed.data.subject);
       formData.append("dueDate", parsed.data.dueDate.toISOString());
       formData.append("instructions", parsed.data.instructions);
       formData.append("questionTypes", JSON.stringify(parsed.data.questionTypes));
@@ -106,6 +114,42 @@ export function CreateAssignmentForm() {
             onFileChange={setFile}
             error={fieldErrors.file}
           />
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="class" className="mb-2 block text-sm text-[#374151]">
+                Class
+              </label>
+              <Input
+                id="class"
+                type="text"
+                value={className}
+                onChange={(e) => setClassName(e.target.value)}
+                placeholder="e.g. 10"
+                className="h-10 rounded-xl border-[#E5E7EB] bg-white"
+              />
+              {fieldErrors.class && (
+                <p className="mt-1 text-xs text-red-600">{fieldErrors.class}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="subject" className="mb-2 block text-sm text-[#374151]">
+                Subject
+              </label>
+              <Input
+                id="subject"
+                type="text"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="e.g. Mathematics"
+                className="h-10 rounded-xl border-[#E5E7EB] bg-white"
+              />
+              {fieldErrors.subject && (
+                <p className="mt-1 text-xs text-red-600">{fieldErrors.subject}</p>
+              )}
+            </div>
+          </div>
 
           {/* Due Date */}
           <div>

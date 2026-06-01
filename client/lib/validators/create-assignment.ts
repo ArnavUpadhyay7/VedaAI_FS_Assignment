@@ -7,6 +7,8 @@ export const questionTypeRowSchema = z.object({
 });
 
 export const createAssignmentSchema = z.object({
+  class: z.string().min(1, "Class is required"),
+  subject: z.string().min(1, "Subject is required"),
   dueDate: z.date({ message: "Due date is required" }),
   instructions: z
     .string()
