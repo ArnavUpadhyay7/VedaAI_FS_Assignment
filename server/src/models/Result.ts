@@ -10,7 +10,7 @@ export interface IQuestion {
 export interface ISection {
   title: string;
   instruction: string;
-  questions: IQuestion[];
+  questions: IQuestion[]; 
 }
 
 export interface IResult {

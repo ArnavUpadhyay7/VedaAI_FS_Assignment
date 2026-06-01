@@ -7,6 +7,8 @@ const questionTypeSchema = z.object({
 });
 
 export const createAssignmentSchema = z.object({
+  class: z.string().min(1),
+  subject: z.string().min(1),
   dueDate: z.coerce.date(),
   instructions: z.string().min(1),
   questionTypes: z
@@ -31,3 +33,9 @@ export const createAssignmentSchema = z.object({
 });
 
 export type CreateAssignmentInput = z.infer<typeof createAssignmentSchema>;
+
+export const renameAssignmentSchema = z.object({
+  title: z.string().trim().min(1),
+});
+
+export type RenameAssignmentInput = z.infer<typeof renameAssignmentSchema>;

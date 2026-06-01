@@ -4,11 +4,15 @@ import {
   deleteAssignment,
   getAssignmentById,
   listAssignments,
+  renameAssignment,
 } from "../services/assignment.service";
 import { enqueueAssignmentJob } from "../queue/assignment.queue";
 import { emitAssignmentEvent } from "../socket/index";
 import { sendError, sendSuccess } from "../utils/response";
-import type { CreateAssignmentInput } from "../validators/assignment.validator";
+import type {
+  CreateAssignmentInput,
+  RenameAssignmentInput,
+} from "../validators/assignment.validator";
 
 export async function createAssignmentHandler(
   req: Request,
@@ -83,6 +87,24 @@ export async function deleteAssignmentHandler(
       return;
     }
     sendSuccess(res, { id: req.params.id });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function renameAssignmentHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const body = req.body as RenameAssignmentInput;
+    const assignment = await renameAssignment(req.params.id as string, body.title);
+    if (!assignment) {
+      sendError(res, "Assignment not found", 404);
+      return;
+    }
+    sendSuccess(res, assignment);
   } catch (error) {
     next(error);
   }

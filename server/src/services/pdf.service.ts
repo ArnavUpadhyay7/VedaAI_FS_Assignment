@@ -44,6 +44,8 @@ export function generateAssessmentPdf(
       0
     );
     doc.fontSize(10).text(`Due Date: ${assignment.dueDate.toLocaleDateString("en-GB")}`);
+    doc.text(`Subject: ${assignment.subject}`);
+    doc.text(`Class: ${assignment.class}`);
     doc.text(`Maximum Marks: ${totalMarks}`, { align: "right" });
     doc.moveDown(0.5);
     doc.font("Helvetica-Oblique").text(
@@ -53,7 +55,7 @@ export function generateAssessmentPdf(
     doc.font("Helvetica");
     doc.moveDown(1);
 
-    doc.text("Name: ____________________________    Roll No: ____________    Section: ________");
+    doc.text("Name: ____________________________    Roll No: ____________");
     doc.moveDown(1.5);
 
     for (const section of result.sections) {

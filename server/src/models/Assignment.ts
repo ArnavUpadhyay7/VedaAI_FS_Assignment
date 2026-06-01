@@ -15,8 +15,11 @@ export interface IQuestionType {
 
 export interface IAssignment {
   _id: Types.ObjectId;
+  title?: string;
   dueDate: Date;
   questionTypes: IQuestionType[];
+  class: string;
+  subject: string;
   instructions: string;
   uploadedFile?: IUploadedFile;
   status: AssignmentStatus;
@@ -45,8 +48,11 @@ const uploadedFileSchema = new Schema<IUploadedFile>(
 
 const assignmentSchema = new Schema<IAssignment>(
   {
+    title: { type: String, required: false },
     dueDate: { type: Date, required: true },
     questionTypes: { type: [questionTypeSchema], required: true },
+    class: { type: String, required: true },
+    subject: { type: String, required: true },
     instructions: { type: String, required: true },
     uploadedFile: { type: uploadedFileSchema, required: false },
     status: {

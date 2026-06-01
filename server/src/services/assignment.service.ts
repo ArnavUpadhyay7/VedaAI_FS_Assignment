@@ -11,6 +11,8 @@ interface CreateAssignmentParams extends CreateAssignmentInput {
 
 export async function createAssignment(params: CreateAssignmentParams) {
   return Assignment.create({
+    class: params.class,
+    subject: params.subject,
     dueDate: params.dueDate,
     instructions: params.instructions,
     questionTypes: params.questionTypes,
@@ -25,6 +27,14 @@ export async function listAssignments() {
 
 export async function getAssignmentById(id: string) {
   return Assignment.findById(id);
+}
+
+export async function renameAssignment(id: string, title: string) {
+  return Assignment.findByIdAndUpdate(
+    id,
+    { title },
+    { returnDocument: "after" }
+  );
 }
 
 export async function updateAssignmentStatus(
